@@ -17,10 +17,24 @@ namespace Clean.Service
             _GuardRepository = GuardRepository;
         }
 
+        public async Task<Prison_Guard> AddAsync(Prison_Guard guard)
+        {
+            return await _GuardRepository.AddAsync(guard);
+        }
 
         public List<Prison_Guard> GetAll()
         {
-            return _GuardRepository.GetList();
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Prison_Guard>> GetAllAsync()
+        {
+            return await _GuardRepository.GetAllAsync();
+        }
+
+        public Prison_Guard GetById(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

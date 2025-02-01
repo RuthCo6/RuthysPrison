@@ -9,8 +9,9 @@ namespace Clean.Core.Services
 {
     public interface IRoomService
     {
-        //Room Add();
+        Task<Room> AddAsync(Room roomToAdd);
         //void Delete();
-        IEnumerable<Room> GetAll();
+        Task<IEnumerable<Room>> GetAllAsync();
+        Room GetById(int id);
     }
 }

@@ -1,4 +1,8 @@
-﻿using Clean.Core.Models;
+﻿using AutoMapper;
+using clean.API.Models;
+using Clean.Core;
+using Clean.Core.DTOs;
+using Clean.Core.Models;
 using Clean.Core.Services;
 using Clean.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -13,44 +17,51 @@ namespace clean.API.Controllers
     public class Roomscontroller : ControllerBase
     {
         private readonly IRoomService _RoomService;
+        private readonly IMapper _mapper;
+        private readonly Manager _manager;
 
-        public Roomscontroller(IRoomService roomService)
+        public Roomscontroller(IRoomService roomService, IMapper mapper, Manager manager)
         {
             _RoomService = roomService;
+            _mapper = mapper;
+            _manager = manager;
         }
-        //private readonly UserRepository _userRepository;
 
-        //public UserController(UserRepository userRepository)
-        //{
-        //    _userRepository = userRepository;
-        //}
-
-        // GET: api/<Userscontroller>
+        // GET: api/<Roomscontroller>
         [HttpGet]
-        public IEnumerable<Room> Get()
+        public async Task<ActionResult> Get()
         {
-            return _RoomService.GetAll();
+            //var calculateTask = Task.Run(() => _manager.Calculate(6, 5));
+            var getAllTask = _RoomService.GetAllAsync();
+
+            var list = await _RoomService.GetAllAsync();
+            var listDTO = _mapper.Map<IEnumerable<RoomDTO>>(list);
+
+            //await Task.WhenAll(calculateTask, getAllTask);
+            return Ok(getAllTask.Result);
         }
 
         // GET api/<Userscontroller>/5
         [HttpGet("{id}")]
+
         public ActionResult Get(int id)
         {
-            foreach (Room room in _RoomService.GetAll())
-            {
-                if (room.Id == id)
-                {
-                    return Ok(room);
-                }
-            }
-            return NotFound("id not found:(");
+            var room = _RoomService.GetById(id);
+            var roomDTO = _mapper.Map<RoomDTO>(room);
+            return Ok(roomDTO);
         }
 
         // POST api/<Userscontroller>
         [HttpPost]
-        public void Post(Room r)
+        public async Task<ActionResult> Post([FromBody] RoomPostModel room)
         {
-            //_RoomService.GetAll().Add(r);
+            var roomToAdd = new Room
+            {
+                Tiny_Neglected = room.Tiny_Neglected,
+                Well_groomed = room.Well_groomed
+            };
+            var newRoom = await _RoomService.AddAsync(roomToAdd);
+            return Ok(newRoom);
         }
 
         // PUT api/<Userscontroller>/5

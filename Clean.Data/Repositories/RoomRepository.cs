@@ -1,6 +1,7 @@
 ﻿using Clean.Core;
 using Clean.Core.Models;
 using Clean.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,22 @@ namespace Clean.Data.Repositories
         {
             _context = context;
         }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Room> GetList()
         {
             return _context.rooms.ToList();
         }
-        //public Room Add(Room room)
-        //{
-        //    _context.rooms.Add(room);
-        //    _context.SaveChanges();
-        //    return room;
-        //}
+        public async Task<Room> AddAsync(Room room)
+        {
+            _context.rooms.Add(room);
+            await _context.SaveChangesAsync();
+            return room;
+        }
 
         //public void Delete(int id)
         //{
@@ -34,10 +41,15 @@ namespace Clean.Data.Repositories
         //    _context.SaveChanges();
         //}
 
-        //public Room GetById(int id)
-        //{
-        //    return _context.rooms.Find(id);
-        //}
+        public async Task<IEnumerable<Room>> GetAllAsync()
+        {
+            return await _context.rooms.Include(r => r.Id).ToListAsync();
+        }
+
+        public Room GetById(int id)
+        {
+            return _context.rooms.Find(id);
+        }
         //public IEnumerable<Room> GetList(int id)
         //{
         //    return _context.rooms.Where(r => !string.IsNullOrEmpty(r.Well_groomed));

@@ -1,3 +1,3 @@
-﻿internal interface IPrisoner_GuardRepository
+﻿public interface IPrisoner_GuardRepository
 {
 }

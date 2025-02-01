@@ -10,5 +10,8 @@ namespace Clean.Core.Repositories
     public interface IPrisonerRepository
     {
         List<Prisoner> GetList();
+        Task<Prisoner> AddAsync(Prisoner prisoner);
+        Task<IEnumerable<Prisoner>> GetAllAsync();
+        Prisoner GetById(int id);
     }
 }

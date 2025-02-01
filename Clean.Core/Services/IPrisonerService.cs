@@ -9,6 +9,11 @@ namespace Clean.Core.Services
 {
     public interface IPrisonerService
     {
-        List<Prisoner> GetAll();
+        //List<Prisoner> GetAll();
+        Task<Prisoner> AddAsync(Prisoner prisoner);
+        Task<IEnumerable<Prisoner>> GetAllAsync();
+        Prisoner GetById(int id);
+        void Update(Prisoner prisoner);
+        void Delete(int id);
     }
 }

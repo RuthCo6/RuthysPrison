@@ -17,11 +17,33 @@ namespace Clean.Service
             _PrisonerRepository = PrisonerRepository;
         }
 
+        public async Task<Prisoner> AddAsync(Prisoner prisoner)
+        {
+            return await _PrisonerRepository.AddAsync(prisoner);
+        }
+
+        public Prisoner GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IPrisonerService.Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Prisoner>> GetAllAsync()
+        {
+            return await _PrisonerRepository.GetAllAsync();
+        }
+        void IPrisonerService.Update(Prisoner prisoner)
+        {
+            throw new NotImplementedException();
+        }
 
         public List<Prisoner> GetAll()
         {
-            return _PrisonerRepository.GetList();
+            throw new NotImplementedException();
         }
-
     }
 }

@@ -3,7 +3,9 @@ using Clean.Core.Services;
 using Clean.Service;
 using Clean.Data.Repositories;
 using Clean.Data;
-
+using Clean.Core;
+using clean.API;
+using clean.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,17 +19,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPrison_GuardRepository, Prison_GuardRepository>();
 builder.Services.AddScoped<IPrison_GuardService, Prison_GuardService>();
 builder.Services.AddDbContext<DataContext>();
-builder.Services.AddSingleton<DataContext>();
+//builder.Services.AddSingleton<DataContext>();
 //Prisoner
 builder.Services.AddScoped<IPrisonerRepository, PrisonerRepository>();
 builder.Services.AddScoped<IPrisonerService, PrisonerService>();
 builder.Services.AddDbContext<DataContext>();
-builder.Services.AddSingleton<DataContext>();
+//builder.Services.AddSingleton<DataContext>();
 //Room
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddDbContext<DataContext>();
-builder.Services.AddSingleton<DataContext>();
+//builder.Services.AddSingleton<DataContext>();
+
+//builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddSingleton<Manager>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +46,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ShabbatMiddleware>();
 
 app.MapControllers();
 

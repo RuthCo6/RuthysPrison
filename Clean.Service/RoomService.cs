@@ -18,29 +18,34 @@ namespace Clean.Service
             _UserRepository = UserRepository;
         }
 
-        //public Room Add(Room room)
-        //{
-        //    return _UserRepository.Add(room);
-        //}
+        public async Task<Room> AddAsync(Room room)
+        {
+            return await _UserRepository.AddAsync(room);
+        }
 
         public Room Add()
         {
             throw new NotImplementedException();
         }
 
-        //public void Delete(int id)
-        //{
-        //    _UserRepository.Delete(id);
-        //}
-
-        public void Delete()
+        public Room Add(Room roomToAdd)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Room> GetAll()
+        public void Delete(int id)
         {
-            return _UserRepository.GetList();
+            _UserRepository.Delete(id);
+        }
+
+        public async Task<IEnumerable<Room>> GetAllAsync()
+        {
+            return await _UserRepository.GetAllAsync();
+        }
+
+        public Room GetById(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
